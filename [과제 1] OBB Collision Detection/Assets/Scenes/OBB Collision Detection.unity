@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &875131745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +152,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 7506222372830608464, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
-  boxCount: 100
+  boxLists:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  boxCount: 20
 --- !u!4 &875131746
 Transform:
   m_ObjectHideFlags: 0
@@ -270,11 +371,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.067
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.727
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalPosition.z
@@ -282,19 +383,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9997559
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.022095012
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -306,11 +407,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2423319057778644347, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 2.532
       objectReference: {fileID: 0}
     - target: {fileID: 7506222372830608464, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
       propertyPath: m_Name
       value: Square
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506222372830608464, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

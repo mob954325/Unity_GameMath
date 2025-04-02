@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2423319057778644347}
   - component: {fileID: 3704123482206310510}
+  - component: {fileID: 8014945040790604185}
   - component: {fileID: 2505097672593527649}
   - component: {fileID: 645248245103170764}
   m_Layer: 0
@@ -46,8 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080594781deba3d40a9bf9772ade6801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  rotSpeed: 180
+--- !u!114 &8014945040790604185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7506222372830608464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d6e8f42716b28469f2af1da18a2588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &2505097672593527649
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -121,7 +132,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

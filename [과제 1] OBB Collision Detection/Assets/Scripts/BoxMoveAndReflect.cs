@@ -8,8 +8,8 @@ public class BoxMoveAndReflect : MonoBehaviour
 {
     Vector2 moveDirection = Vector2.zero;
 
-    float speed = 5f;
-    float rotSpeed = 0f;
+    float speed = 20f;
+    float rotSpeed = 180f;
 
     void Start()
     {

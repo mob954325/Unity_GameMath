@@ -28,8 +28,8 @@ public class BoxManager : MonoBehaviour
         Rect worldRect = new Rect(center.x, center.y, screenWidth, screenHeight);
 
         quadtree = new Quadtree(0, worldRect);
-        
-        for(int i = 0; i < boxCount; i++)
+
+        for (int i = 0; i < boxCount; i++)
         {
             GameObject obj = Instantiate(boxPrefab);
             objects.Add(obj);
@@ -38,7 +38,7 @@ public class BoxManager : MonoBehaviour
 
     private void Update()
     {
-        if(!useQuadTree)
+        if (!useQuadTree)
         {
             DoubleForLoopCheck();
         }
@@ -57,7 +57,7 @@ public class BoxManager : MonoBehaviour
 
         for (int i = 0; i < boxCount; i++)
         {
-            for(int j = 0; j < boxCount; j++)
+            for (int j = 0; j < boxCount; j++)
             {
                 if (i == j) continue; // 본인 제외
 
@@ -135,7 +135,7 @@ public class BoxManager : MonoBehaviour
         b = localACorners[1].y - localACorners[2].y;
         Vector2 parellelAxisX = new Vector2(b, -a); // y축의 노말 벡터
 
-        return IsOverlapping(localACorners, localBCorners, parellelAxisX) && 
+        return IsOverlapping(localACorners, localBCorners, parellelAxisX) &&
                IsOverlapping(localACorners, localBCorners, parellelAxisY);
     }
 

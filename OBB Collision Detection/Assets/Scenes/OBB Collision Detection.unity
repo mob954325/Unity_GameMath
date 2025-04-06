@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 7506222372830608464, guid: ed1a0887c97b95e42b8695379ff056ab, type: 3}
-  boxCount: 25
+  boxCount: 100
   useQuadTree: 1
 --- !u!4 &875131746
 Transform:
@@ -230,7 +230,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

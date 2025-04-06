@@ -32,6 +32,9 @@ public class BoxManager : MonoBehaviour
         for (int i = 0; i < boxCount; i++)
         {
             GameObject obj = Instantiate(boxPrefab);
+            float sizeX = Random.Range(1, 4);
+            float sizeY = Random.Range(1, 4);
+            obj.transform.localScale = new Vector2(sizeX, sizeY);
             objects.Add(obj);
         }
     }
@@ -63,7 +66,7 @@ public class BoxManager : MonoBehaviour
 
                 Bounds boundsA = objects[i].GetComponent<SpriteRenderer>().sprite.bounds;
                 Bounds boundsB = objects[j].GetComponent<SpriteRenderer>().sprite.bounds;
-                if (CheckOverlapped(boundsA, boundsB, objects[i].transform, objects[j].transform))
+                if (OBBCollisionCheck(boundsA, boundsB, objects[i].transform, objects[j].transform))
                 {
                     objects[i].GetComponent<SpriteRenderer>().color = Color.red;
                     objects[j].GetComponent<SpriteRenderer>().color = Color.red;
@@ -93,9 +96,9 @@ public class BoxManager : MonoBehaviour
             {
                 if (listObj == obj) continue; // 본인 제외
 
-                Bounds boundsA = obj.GetComponent<SpriteRenderer>().sprite.bounds;
-                Bounds boundsB = listObj.GetComponent<SpriteRenderer>().sprite.bounds;
-                if (CheckOverlapped(boundsA, boundsB, obj.transform, listObj.transform))
+                Bounds boundsA = obj.GetComponent<SpriteRenderer>().bounds;
+                Bounds boundsB = listObj.GetComponent<SpriteRenderer>().bounds;
+                if (OBBCollisionCheck(boundsA, boundsB, obj.transform, listObj.transform))
                 {
                     obj.GetComponent<SpriteRenderer>().color = Color.red;
                     listObj.GetComponent<SpriteRenderer>().color = Color.red;
@@ -104,55 +107,96 @@ public class BoxManager : MonoBehaviour
         }
     }
 
-    bool CheckOverlapped(Bounds boundsA, Bounds boundsB, Transform objA, Transform objB)
+    bool OBBCollisionCheck(Bounds boundsA, Bounds boundsB, Transform objA, Transform objB)
     {
-        Vector2 sizeA = boundsA.size;
-        Vector2 sizeB = boundsB.size;
+        Vector2 sizeA = objA.localScale;
+        Vector2 sizeB = objB.localScale;
 
-        Vector3 centerA = objA.transform.position; // 현재 도형의 월드 중심 포지션이 필요함
-        Vector3 centerB = objB.transform.position;
+        Vector2 rightA = objA.right * sizeA.x / 2f;
+        Vector2 upA = objA.up * sizeA.y / 2f;
+        Vector2 rightB = objB.right * sizeB.x / 2f;
+        Vector2 upB = objB.up * sizeB.y / 2f;
+
+        Vector2 centerA = objA.transform.position; // 현재 도형의 월드 중심 포지션이 필요함
+        Vector2 centerB = objB.transform.position;
 
         // 도형 a의 꼭짓점들 좌표
-        Vector3[] localACorners = new Vector3[4];
-        localACorners[0] = centerA + new Vector3(-sizeA.x / 2, -sizeA.y / 2, 0);  // bottomLeft
-        localACorners[1] = centerA + new Vector3(sizeA.x / 2, -sizeA.y / 2, 0);   // bottomRight
-        localACorners[2] = centerA + new Vector3(sizeA.x / 2, sizeA.y / 2, 0);    // topRight
-        localACorners[3] = centerA + new Vector3(-sizeA.x / 2, sizeA.y / 2, 0);   // topLeft
+        Vector2[] localACorners = new Vector2[4];
+        localACorners[0] = centerA - rightA - upA;  // bottomLeft
+        localACorners[1] = centerA + rightA - upA;  // bottomRight
+        localACorners[2] = centerA + rightA + upA;  // topRight
+        localACorners[3] = centerA - rightA + upA;  // topLeft
 
         // 도형 b의 꼭짓점들 죄표
-        Vector3[] localBCorners = new Vector3[4];
-        localBCorners[0] = centerB + new Vector3(-sizeB.x / 2, -sizeB.y / 2, 0);  // bottomLeft
-        localBCorners[1] = centerB + new Vector3(sizeB.x / 2, -sizeB.y / 2, 0);   // bottomRight
-        localBCorners[2] = centerB + new Vector3(sizeB.x / 2, sizeB.y / 2, 0);    // topRight
-        localBCorners[3] = centerB + new Vector3(-sizeB.x / 2, sizeB.y / 2, 0);   // topLeft
+        Vector2[] localBCorners = new Vector2[4];
+        localBCorners[0] = centerB - rightB - upB;  // bottomLeft
+        localBCorners[1] = centerB + rightB - upB;  // bottomRight
+        localBCorners[2] = centerB + rightB + upB;  // topRight
+        localBCorners[3] = centerB - rightB + upB;  // topLeft
 
         // 1. 두 도형의 수직인 축들을 모두 구한다.
-        float a = localACorners[0].x - localACorners[1].x;
-        float b = localACorners[0].y - localACorners[1].y;
-        Vector2 parellelAxisY = new Vector2(b, -a); // x축의 노말 벡터
+        // A
+        Vector2[] axes = new Vector2[4];
+        axes[0] = GetNormal(GetEdge(localACorners[0], localACorners[1]));
+        axes[1] = GetNormal(GetEdge(localACorners[1], localACorners[2]));
+        // B
+        axes[2] = GetNormal(GetEdge(localBCorners[0], localBCorners[1]));
+        axes[3] = GetNormal(GetEdge(localBCorners[1], localBCorners[2]));
 
-        a = localACorners[1].x - localACorners[2].x;
-        b = localACorners[1].y - localACorners[2].y;
-        Vector2 parellelAxisX = new Vector2(b, -a); // y축의 노말 벡터
+        // 최대 최소 값
+        float[] pointsA = new float[2];
+        float[] pointsB = new float[2];
 
-        return IsOverlapping(localACorners, localBCorners, parellelAxisX) &&
-               IsOverlapping(localACorners, localBCorners, parellelAxisY);
-    }
-
-    bool IsOverlapping(Vector3[] localACorners, Vector3[] localBCorners, Vector2 axis)
-    {
-        float aMin = float.MaxValue;
-        float aMax = float.MinValue;
-        float bMin = float.MaxValue;
-        float bMax = float.MinValue;
-        for (int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
-            aMin = Mathf.Min(Vector2.Dot(axis, localACorners[i]), aMin);
-            aMax = Mathf.Max(Vector2.Dot(axis, localACorners[i]), aMax);
-            bMin = Mathf.Min(Vector2.Dot(axis, localBCorners[i]), bMin);
-            bMax = Mathf.Max(Vector2.Dot(axis, localBCorners[i]), bMax);
+            // 2. 투영
+            pointsA = Projection(localACorners, axes[i]);
+            pointsB = Projection(localBCorners, axes[i]);
+
+            // 3. 겹치는지 확인
+            if (!CheckOverlap(pointsA, pointsB)) return false;
         }
 
-        return !(aMax < bMin || aMin > bMax);
+        return true;
+    }
+
+    float[] Projection(Vector2[] localCorners, Vector2 axis)
+    {
+        float[] result = new float[2];
+        float min = Vector2.Dot(axis, localCorners[0]);
+        float max = min;
+
+        foreach(Vector2 corner in localCorners)
+        {
+            float p = Vector2.Dot(corner, axis); // 축에 꼭짓점 투영하기
+            if(p < min)
+            {
+                min = p;
+            }
+            else if(p > max)
+            {
+                max = p;
+            }
+        }
+
+        result[0] = min;
+        result[1] = max;
+        return result;
+    }
+
+    bool CheckOverlap(float[] a, float[] b)
+    {
+        return a[1] > b[0] && b[1] > a[0]; // a.max > b.min && b.max > a.min
+    }
+
+    Vector2 GetEdge(Vector2 from, Vector2 to)
+    {
+        Vector2 edgeVec = to - from;
+        return edgeVec.normalized;
+    }
+
+    Vector2 GetNormal(Vector2 edge)
+    {
+        return new Vector2(-edge.y, edge.x);
     }
 }

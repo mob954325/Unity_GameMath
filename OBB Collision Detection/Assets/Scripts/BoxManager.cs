@@ -14,7 +14,6 @@ public class BoxManager : MonoBehaviour
     [Tooltip("플레이 중에 사용하지 말 것")]
     public bool useQuadTree = false;
 
-
     // 박스 생성
     // 박스 충돌 확인
     private void Start()

@@ -5,7 +5,10 @@ using UnityEngine;
 public enum ProjectileType
 {
     Sin = 0,
-    Lerp,}
+    Lerp,
+    Spiral,
+    Eight,
+}
 
 public class ObjectManager : MonoBehaviour
 {
@@ -99,6 +102,13 @@ public class ObjectManager : MonoBehaviour
             {
                 obj.GetComponent<SpriteRenderer>().color = Color.red;
                 player.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
+                // Player Hit
+                if(player.hitDelay <= 0f)
+                {
+                    player.hp--;
+                    player.hitDelay = player.maxHitDelay;
+                }
             }
         }
     }

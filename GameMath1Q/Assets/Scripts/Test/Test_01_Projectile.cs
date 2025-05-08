@@ -20,4 +20,18 @@ public class Test_01_Projectile : TestBase
         GameObject projectile = ObjectManager.Instance.SpawnProjectile(ProjectileType.Lerp);
         projectile.transform.position = spawnPoint.transform.position;
     }
+
+    protected override void OnTest3(InputAction.CallbackContext context)
+    {
+        Debug.Log("3: Spawn projectilePolar");
+        GameObject projectile = ObjectManager.Instance.SpawnProjectile(ProjectileType.Spiral);
+        projectile.transform.position = spawnPoint.transform.position;
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        Debug.Log("4: Spawn projectileEight");
+        GameObject projectile = ObjectManager.Instance.SpawnProjectile(ProjectileType.Eight);
+        projectile.transform.position = spawnPoint.transform.position;
+    }
 }

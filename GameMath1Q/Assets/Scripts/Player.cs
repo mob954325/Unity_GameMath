@@ -8,6 +8,10 @@ public class Player : MonoBehaviour
     private Vector2 inputVec = Vector2.zero;
     private float speed = 5f;
 
+    public int hp = 5;
+    public float hitDelay = 0f;
+    public float maxHitDelay => 1f;
+
     private void Awake()
     {
         actions = new PlayerInputActions();        
@@ -16,6 +20,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         InputInit();
+        hp = 5;
     }
 
     private void OnDisable()
@@ -25,6 +30,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(hitDelay >= 0f)
+        {
+            hitDelay -= Time.deltaTime;
+        }
+
         transform.Translate(inputVec * speed * Time.deltaTime);
     }
 

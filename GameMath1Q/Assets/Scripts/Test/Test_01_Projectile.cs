@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Test_00_Projectile : TestBase
+public class Test_01_Projectile : TestBase
 {
     public GameObject spawnPoint;
     public GameObject projectileSin;

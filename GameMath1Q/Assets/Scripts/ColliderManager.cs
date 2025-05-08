@@ -4,37 +4,35 @@ using UnityEngine;
 
 public class ColliderManager : MonoBehaviour
 {
-    private static ColliderManager instance;
-    public static ColliderManager Instance 
-    { 
+    private static ColliderManager instance = null;
+    public static ColliderManager Instance
+    {
         get
         {
-            if(instance != null)
+            if(instance == null)
             {
-                Destroy(instance.gameObject);
+                instance = FindObjectOfType<ColliderManager>();
+                if(instance == null)
+                {
+                    GameObject obj = new GameObject("ColliderManager_Created");
+                    instance = obj.AddComponent<ColliderManager>();
+                }
             }
-
-            GameObject obj = new GameObject();
-            obj.name = "ColliderManager";
-            ColliderManager comp = obj.AddComponent<ColliderManager>();
-            instance = comp;
 
             return instance;
         }
     }
 
-
-    private Quadtree quadtree;
-
-    List<GameObject> objects;
+    public List<GameObject> objects;
     public int boxCount = 100;
 
     [Tooltip("플레이 중에 사용하지 말 것")]
     public bool useQuadTree = false;
+    private Quadtree quadtree;
 
     private void Awake()
     {
-        objects = new List<GameObject>();        
+        objects = new List<GameObject>();
     }
 
     private void Start()
@@ -56,17 +54,12 @@ public class ColliderManager : MonoBehaviour
     void QudeTreeCheck()
     {
         // quadtree 초기화
-        quadtree.Clear();
+        quadtree.Clear();        
+
+        // NOTE : 오브젝트 제거 관리 해야함
         foreach (GameObject obj in objects)
         {
-            if(obj == null)
-            {
-                objects.Remove(obj);
-            }
-            else
-            {
-                quadtree.Insert(obj);
-            }
+            quadtree.Insert(obj);
         }
 
         // 충돌 오브젝트 찾기

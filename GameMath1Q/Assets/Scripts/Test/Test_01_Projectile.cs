@@ -12,7 +12,8 @@ public class Test_01_Projectile : TestBase
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         Debug.Log("1: Spawn projectileSin");
-        Instantiate(projectileSin, spawnPoint.transform.position, Quaternion.identity);
+
+        ColliderManager.Instance.AddObject(Instantiate(projectileSin, spawnPoint.transform.position, Quaternion.identity));
     }
 
     protected override void OnTest2(InputAction.CallbackContext context)

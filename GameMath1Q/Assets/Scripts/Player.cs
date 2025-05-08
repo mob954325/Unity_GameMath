@@ -23,11 +23,6 @@ public class Player : MonoBehaviour
         InputRelease();
     }
 
-    void Start()
-    {
-        ColliderManager.Instance.AddObject(this.gameObject);
-    }
-
     void Update()
     {
         transform.Translate(inputVec * speed * Time.deltaTime);

@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderManager : MonoBehaviour
+public enum ProjectileType
 {
-    private static ColliderManager instance = null;
-    public static ColliderManager Instance
+    Sin = 0,
+    Lerp,}
+
+public class ObjectManager : MonoBehaviour
+{
+    private static ObjectManager instance = null;
+    public static ObjectManager Instance
     {
         get
         {
             if(instance == null)
             {
-                instance = FindObjectOfType<ColliderManager>();
+                instance = FindObjectOfType<ObjectManager>();
                 if(instance == null)
                 {
                     GameObject obj = new GameObject("ColliderManager_Created");
-                    instance = obj.AddComponent<ColliderManager>();
+                    instance = obj.AddComponent<ObjectManager>();
                 }
             }
 
@@ -23,16 +28,20 @@ public class ColliderManager : MonoBehaviour
         }
     }
 
-    public List<GameObject> objects;
-    public int boxCount = 100;
+    private Player player = null;
+    private List<GameObject> objects;
 
     [Tooltip("플레이 중에 사용하지 말 것")]
     public bool useQuadTree = false;
     private Quadtree quadtree;
 
+    public GameObject[] projectile;
+
     private void Awake()
     {
         objects = new List<GameObject>();
+
+        player = FindObjectOfType<Player>();
     }
 
     private void Start()
@@ -44,6 +53,15 @@ public class ColliderManager : MonoBehaviour
         Rect worldRect = new Rect(center.x, center.y, screenWidth, screenHeight);
 
         quadtree = new Quadtree(0, worldRect);
+
+        if(player == null)
+        {
+            Debug.LogWarning("CollierManager의 Player가 없습니다.");
+        }
+        else
+        {
+            objects.Add(player.gameObject);
+        }
     }
 
     private void Update()
@@ -54,33 +72,33 @@ public class ColliderManager : MonoBehaviour
     void QudeTreeCheck()
     {
         // quadtree 초기화
-        quadtree.Clear();        
+        quadtree.Clear();
 
-        // NOTE : 오브젝트 제거 관리 해야함
+        objects.RemoveAll(obj => obj == null);
         foreach (GameObject obj in objects)
         {
             quadtree.Insert(obj);
         }
 
         // 충돌 오브젝트 찾기
+
+        player.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+        Bounds playerBound = player.gameObject.GetComponent<SpriteRenderer>().bounds;
+
         List<GameObject> list = new List<GameObject>();
         foreach (GameObject obj in objects)
         {
+            if (obj == player.gameObject) continue;
+
             obj.GetComponent<SpriteRenderer>().color = Color.blue;
             list.Clear();
             list = quadtree.Retrieve(list, obj);
 
-            foreach (GameObject listObj in list)
+            Bounds boundsA = obj.GetComponent<SpriteRenderer>().bounds;
+            if (OBBCollisionCheck(boundsA, playerBound, obj.transform, player.transform))
             {
-                if (listObj == obj) continue; // 본인 제외
-
-                Bounds boundsA = obj.GetComponent<SpriteRenderer>().bounds;
-                Bounds boundsB = listObj.GetComponent<SpriteRenderer>().bounds;
-                if (OBBCollisionCheck(boundsA, boundsB, obj.transform, listObj.transform))
-                {
-                    obj.GetComponent<SpriteRenderer>().color = Color.red;
-                    listObj.GetComponent<SpriteRenderer>().color = Color.red;
-                }
+                obj.GetComponent<SpriteRenderer>().color = Color.red;
+                player.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
     }
@@ -178,9 +196,11 @@ public class ColliderManager : MonoBehaviour
         return new Vector2(-edge.y, edge.x);
     }
 
-    public void AddObject(GameObject obj)
+    public GameObject SpawnProjectile(ProjectileType type)
     {
-        // 오브젝트 추가
+        GameObject obj = Instantiate(projectile[(int)type]);
         objects.Add(obj);
+
+        return obj;
     }
 }

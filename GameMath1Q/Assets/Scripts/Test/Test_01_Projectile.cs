@@ -6,19 +6,18 @@ using UnityEngine.InputSystem;
 public class Test_01_Projectile : TestBase
 {
     public GameObject spawnPoint;
-    public GameObject projectileSin;
-    public GameObject projectileBar;
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         Debug.Log("1: Spawn projectileSin");
-
-        ColliderManager.Instance.AddObject(Instantiate(projectileSin, spawnPoint.transform.position, Quaternion.identity));
+        GameObject projectile = ObjectManager.Instance.SpawnProjectile(ProjectileType.Sin);
+        projectile.transform.position = spawnPoint.transform.position;
     }
 
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        Debug.Log("2: Spawn projectileBar");
-        Instantiate(projectileBar, spawnPoint.transform.position, Quaternion.identity);
+        Debug.Log("2: Spawn projectileLerp");
+        GameObject projectile = ObjectManager.Instance.SpawnProjectile(ProjectileType.Lerp);
+        projectile.transform.position = spawnPoint.transform.position;
     }
 }

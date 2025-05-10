@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         InputInit();
-        hp = 5;
+        hp = 10;
     }
 
     private void OnDisable()

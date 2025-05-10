@@ -16,11 +16,12 @@ public class Scene1Manager : MonoBehaviour
     private Transform[] spawnPoints;
 
     private float gameTimer = 0f;
-    private float maxGameTimer = 30f;
+    private float maxGameTimer = 20f;
     private float spawntimer = 0f;
     private float maxSpawnTimer = 1f;
 
     private bool isPlaying = false;
+    public bool isDebug = false;
 
     // Start is called before the first frame update
     void Start()
@@ -77,8 +78,8 @@ public class Scene1Manager : MonoBehaviour
             SpawnProjectile();
         }
 
-        gameTimer -= Time.deltaTime;
-        spawntimer -= Time.deltaTime;
+        if(!isDebug) gameTimer -= Time.deltaTime;
+        if (!isDebug) spawntimer -= Time.deltaTime;
 
         timerUI.text = $"{gameTimer:F0}";
         playerHpUI.text = $"Hp : {player.hp}";

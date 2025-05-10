@@ -40,6 +40,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject[] projectile;
 
+    public bool isDebug = false;
+
     private void Awake()
     {
         objects = new List<GameObject>();
@@ -103,11 +105,14 @@ public class ObjectManager : MonoBehaviour
                 obj.GetComponent<SpriteRenderer>().color = Color.red;
                 player.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
-                // Player Hit
-                if(player.hitDelay <= 0f)
+                if(!isDebug)
                 {
-                    player.hp--;
-                    player.hitDelay = player.maxHitDelay;
+                    // Player Hit
+                    if(player.hitDelay <= 0f)
+                    {
+                        player.hp--;
+                        player.hitDelay = player.maxHitDelay;
+                    }
                 }
             }
         }
@@ -212,5 +217,10 @@ public class ObjectManager : MonoBehaviour
         objects.Add(obj);
 
         return obj;
+    }
+
+    public void AddObjectList(GameObject obj)
+    {
+        objects.Add(obj);
     }
 }
